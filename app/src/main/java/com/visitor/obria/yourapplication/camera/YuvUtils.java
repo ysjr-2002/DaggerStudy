@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
+import android.util.Log;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -42,15 +43,22 @@ public class YuvUtils {
         BinaryBitmap bitmap1 = new BinaryBitmap(new HybridBinarizer(source));
         QRCodeReader reader = new QRCodeReader();
         Result re = null;
+        String content = "";
         try {
             re = reader.decode(bitmap1);
+            if (re != null) {
+                content = re.getText();
+            }
         } catch (NotFoundException e) {
+            Log.d("ysj", "没有发现二维码");
             e.printStackTrace();
         } catch (ChecksumException e) {
+            Log.d("ysj", "校验错误");
             e.printStackTrace();
         } catch (FormatException e) {
+            Log.d("ysj", "格式错误");
             e.printStackTrace();
         }
-        return re.getText();
+        return content;
     }
 }

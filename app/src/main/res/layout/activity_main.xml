@@ -6,10 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-   <Button
-       android:id="@+id/button"
-       android:text="go to user"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="go to user" />
+
+    <Button
+        android:id="@+id/btn_take"
+        android:layout_below="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Take Photo" />
+
+
+    <com.visitor.obria.yourapplication.cameraEx.TextureViewEx
+        android:id="@+id/myView"
+        android:layout_width="270dp"
+        android:layout_centerInParent="true"
+        android:layout_height="480dp"></com.visitor.obria.yourapplication.cameraEx.TextureViewEx>
 
 </RelativeLayout>

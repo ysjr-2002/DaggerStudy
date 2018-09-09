@@ -8,11 +8,13 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * created by yangshaojie  on 2018/9/5
@@ -52,12 +54,12 @@ public class CameraManager  {
     private CameraTextureView.CameraPreviewListener mCameraPreviewListener = new CameraTextureView.CameraPreviewListener() {
         @Override
         public void onStartPreview() {
-            mSurfaceTexture = mCameraTextureView.getSurfaceTexture();
-            try {
-                camera.setPreviewTexture(mSurfaceTexture);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            mSurfaceTexture = mCameraTextureView.getSurfaceTexture();
+//            try {
+//                camera.setPreviewTexture(mSurfaceTexture);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     };
 
@@ -137,6 +139,9 @@ public class CameraManager  {
 
             //设置参数
             Camera.Parameters param = camera.getParameters();
+            printSuportPreviewSize(param);
+
+            param.setFocusMode( Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
             if (this.manualWidth > 0 && this.manualHeight > 0) {
                 param.setPreviewSize(manualWidth, manualHeight);
             }
@@ -178,6 +183,14 @@ public class CameraManager  {
             });
         }
         return null;
+    }
+
+    private void printSuportPreviewSize(Camera.Parameters param) {
+        List<Camera.Size> sizes = param.getSupportedPreviewSizes();
+        for (Camera.Size size: sizes
+             ) {
+            Log.d("ysj", String.format( "w %d h %d", size.width, size.height));
+        }
     }
 
     private void release() {

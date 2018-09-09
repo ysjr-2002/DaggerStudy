@@ -38,8 +38,8 @@ public class CameraTextureView extends TextureView implements TextureView.Surfac
         mSurface = surface;
 //        setLayoutParams(new FrameLayout.LayoutParams(width, height, Gravity.CENTER));
 //        Matrix transform = new Matrix();
-//        transform.setTranslate(width, 0);
-//        transform.preScale(-1, 1);
+//        transform.setTranslate(200, 0);
+        //transform.preScale(-1, 1);
 //        setTransform(transform);
 
         isViewInit = true;

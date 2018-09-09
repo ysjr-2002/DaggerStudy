@@ -18,7 +18,6 @@ public class UserActivity extends BaseActivity {
         return R.layout.activity_user;
     }
 
-
     @Inject
     Student student1;
 
