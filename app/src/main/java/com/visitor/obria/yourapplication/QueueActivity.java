@@ -8,6 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.visitor.obria.yourapplication.model.Student;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -54,10 +60,42 @@ public class QueueActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_clear_message:
-                myHandler.removeMessages(101);
+                // myHandler.removeMessages(101);
+                sort();
                 break;
         }
     }
+
+    private void sort() {
+        List<String> list = new ArrayList<>();
+        list.add("b");
+        list.add("c");
+        list.add("a");
+        list.add("d");
+        list.add("test");
+
+        //Collections.sort(list);
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+
+                if (o1.length() > o2.length()) {
+                    return 0;
+                } else
+                    return 1;
+            }
+        });
+
+        for (String s :
+                list) {
+            Log.d("kk", s);
+        }
+
+        System.out.print(100 + 100);
+        System.out.print("100 +100");
+    }
+
+    Student mStudent;
 
     private Handler myHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
@@ -70,7 +108,6 @@ public class QueueActivity extends AppCompatActivity {
                 Log.d("kk", "抱怨");
                 return true;
             }
-
             return false;
         }
     });
