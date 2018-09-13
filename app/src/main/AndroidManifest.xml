@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QueueActivity">
+        <activity android:name=".qinru.Step1Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,9 @@
         <activity android:name=".QRRecognizeActivity" />
         <activity android:name=".BusCardActivity" />
         <activity android:name=".PictureActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".QueueActivity" />
+        <activity android:name=".qinru.Step2Activity"></activity>
     </application>
 
 </manifest>
