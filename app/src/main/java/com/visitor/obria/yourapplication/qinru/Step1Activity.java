@@ -2,13 +2,21 @@ package com.visitor.obria.yourapplication.qinru;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 
+import com.visitor.obria.yourapplication.MySurfaceView;
 import com.visitor.obria.yourapplication.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Step1Activity extends AppCompatActivity {
+
+    @BindView(R.id.btn_a1)
+    Button btnA1;
+    @BindView(R.id.sfv)
+    MySurfaceView sfv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +48,17 @@ public class Step1Activity extends AppCompatActivity {
     @OnClick(R.id.btn_a1)
     public void onViewClicked() {
 
-
-        Step2Activity.StartStep2Activity(this);
-        this.overridePendingTransition(R.anim.in_from_right, R.anim.out_from_right);
+//        Step2Activity.StartStep2Activity(this);
+////        this.overridePendingTransition(R.anim.in_from_right, R.anim.out_from_right);
+//        if (a) {
+//            sfv.drawRed();
+//            a = false;
+//        } else {
+//            sfv.drawBlue();
+//            a = true;
+//        }
+        sfv.change();
     }
+
+    boolean a = false;
 }

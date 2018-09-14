@@ -21,4 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.visitor.obria.yourapplication.MySurfaceView
+        android:layout_width="match_parent"
+        android:id="@+id/sfv"
+        android:background="#f3f300"
+        android:layout_alignParentBottom="true"
+        android:layout_height="200dp" />
+
 </RelativeLayout>
