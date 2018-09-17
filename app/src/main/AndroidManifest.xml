@@ -7,28 +7,29 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".activity.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MatrixActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserActivity" />
-        <activity android:name=".StudentActivity" />
-        <activity android:name=".QRRecognizeActivity" />
-        <activity android:name=".BusCardActivity" />
-        <activity android:name=".PictureActivity" />
+        <activity android:name=".activity.UserActivity" />
+        <activity android:name=".activity.StudentActivity" />
+        <activity android:name=".activity.QRRecognizeActivity" />
+        <activity android:name=".activity.BusCardActivity" />
+        <activity android:name=".activity.PictureActivity" />
         <activity android:name=".qinru.Step1Activity" />
-        <activity android:name=".QueueActivity" />
-        <activity android:name=".qinru.Step2Activity"></activity>
+        <activity android:name=".activity.QueueActivity" />
+        <activity android:name=".qinru.Step2Activity" />
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>

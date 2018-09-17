@@ -1,4 +1,4 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.view.View;
+
+import com.visitor.obria.yourapplication.R;
 
 /**
  * created by yangshaojie  on 2018/9/14

@@ -1,6 +1,5 @@
 package com.visitor.obria.yourapplication.module;
 
-import com.visitor.obria.yourapplication.MainPresenter;
 import com.visitor.obria.yourapplication.bean.StudenBean;
 
 import javax.inject.Singleton;

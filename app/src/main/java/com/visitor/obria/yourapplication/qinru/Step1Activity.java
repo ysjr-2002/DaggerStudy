@@ -1,12 +1,11 @@
 package com.visitor.obria.yourapplication.qinru;
 
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.visitor.obria.yourapplication.BaseActivity;
-import com.visitor.obria.yourapplication.MySurfaceView;
+import com.visitor.obria.yourapplication.activity.BaseActivity;
+import com.visitor.obria.yourapplication.activity.MySurfaceView;
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.api.ApiService;
 import com.visitor.obria.yourapplication.presenter.Step1Presenter;
@@ -14,7 +13,6 @@ import com.visitor.obria.yourapplication.presenter.Step1Presenter;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;

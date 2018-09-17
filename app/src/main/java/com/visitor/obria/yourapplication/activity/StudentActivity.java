@@ -1,8 +1,10 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+
+import com.visitor.obria.yourapplication.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

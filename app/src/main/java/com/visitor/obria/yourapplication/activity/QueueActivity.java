@@ -1,4 +1,4 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +7,8 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import com.visitor.obria.yourapplication.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

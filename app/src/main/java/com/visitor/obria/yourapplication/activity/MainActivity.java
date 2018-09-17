@@ -1,4 +1,4 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.content.Intent;
 import android.graphics.ImageFormat;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.camera.CameraPreviewData;
 import com.visitor.obria.yourapplication.cameraEx.CameraEx;
 import com.visitor.obria.yourapplication.cameraEx.TextureViewEx;

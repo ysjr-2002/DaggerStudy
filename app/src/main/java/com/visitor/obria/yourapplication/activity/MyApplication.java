@@ -1,4 +1,4 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.app.Application;
 

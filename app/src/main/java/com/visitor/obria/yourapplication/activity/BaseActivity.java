@@ -1,4 +1,4 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.visitor.obria.yourapplication.component.ActivityComponent;
 import com.visitor.obria.yourapplication.component.AppComponent;
 import com.visitor.obria.yourapplication.component.DaggerActivityComponent;
-import com.visitor.obria.yourapplication.module.AppModule;
 
 import butterknife.ButterKnife;
 

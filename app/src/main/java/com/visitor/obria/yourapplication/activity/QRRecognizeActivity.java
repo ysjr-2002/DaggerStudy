@@ -1,7 +1,6 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,8 +10,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.camera.CameraManager;
 import com.visitor.obria.yourapplication.camera.CameraPreviewData;
 import com.visitor.obria.yourapplication.camera.CameraTextureView;
@@ -23,7 +22,6 @@ import java.util.concurrent.BlockingQueue;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class QRRecognizeActivity extends AppCompatActivity {
 

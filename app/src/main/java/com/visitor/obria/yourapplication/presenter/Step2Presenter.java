@@ -2,7 +2,7 @@ package com.visitor.obria.yourapplication.presenter;
 
 import android.util.Log;
 
-import com.visitor.obria.yourapplication.Config;
+import com.visitor.obria.yourapplication.activity.Config;
 import com.visitor.obria.yourapplication.bean.StudenBean;
 import com.visitor.obria.yourapplication.qinru.Step2Activity;
 

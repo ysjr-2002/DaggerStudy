@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <Button
         android:id="@+id/button"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.visitor.obria.yourapplication.cameraEx.TextureViewEx>
 
-        <com.visitor.obria.yourapplication.FaceView
+        <com.visitor.obria.yourapplication.activity.FaceView
             android:id="@+id/faceview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

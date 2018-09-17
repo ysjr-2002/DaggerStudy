@@ -1,8 +1,9 @@
-package com.visitor.obria.yourapplication;
+package com.visitor.obria.yourapplication.activity;
 
 import android.widget.TextView;
 
-import javax.inject.Inject;
+import com.visitor.obria.yourapplication.R;
+import com.visitor.obria.yourapplication.activity.BaseActivity;
 
 import butterknife.BindView;
 

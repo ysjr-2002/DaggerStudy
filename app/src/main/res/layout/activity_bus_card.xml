@@ -7,7 +7,7 @@
     android:background="#0000ff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".BusCardActivity">
+    tools:context=".activity.BusCardActivity">
 
     <LinearLayout
         android:id="@+id/lout_root"

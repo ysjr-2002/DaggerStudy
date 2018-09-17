@@ -8,10 +8,9 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.TextureView;
 
-import com.visitor.obria.yourapplication.FaceView;
+import com.visitor.obria.yourapplication.activity.FaceView;
 import com.visitor.obria.yourapplication.camera.CameraPreviewData;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

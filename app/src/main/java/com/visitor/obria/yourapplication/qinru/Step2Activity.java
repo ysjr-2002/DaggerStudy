@@ -2,12 +2,10 @@ package com.visitor.obria.yourapplication.qinru;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.visitor.obria.yourapplication.BaseActivity;
+import com.visitor.obria.yourapplication.activity.BaseActivity;
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.presenter.Step2Presenter;
 
