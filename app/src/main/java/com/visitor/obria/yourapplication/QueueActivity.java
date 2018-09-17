@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.visitor.obria.yourapplication.model.Student;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,8 +92,6 @@ public class QueueActivity extends AppCompatActivity {
         System.out.print(100 + 100);
         System.out.print("100 +100");
     }
-
-    Student mStudent;
 
     private Handler myHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override

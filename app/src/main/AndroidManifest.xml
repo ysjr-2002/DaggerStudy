@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.visitor.obria.yourapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -11,8 +12,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MyApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".qinru.Step1Activity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +26,7 @@
         <activity android:name=".QRRecognizeActivity" />
         <activity android:name=".BusCardActivity" />
         <activity android:name=".PictureActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".qinru.Step1Activity" />
         <activity android:name=".QueueActivity" />
         <activity android:name=".qinru.Step2Activity"></activity>
     </application>

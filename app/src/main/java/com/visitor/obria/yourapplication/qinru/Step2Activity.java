@@ -7,22 +7,17 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.visitor.obria.yourapplication.BaseActivity;
 import com.visitor.obria.yourapplication.R;
+import com.visitor.obria.yourapplication.presenter.Step2Presenter;
 
-public class Step2Activity extends AppCompatActivity {
+import javax.inject.Inject;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_step2);
+public class Step2Activity extends BaseActivity {
 
-        init();
-    }
 
-    public static void StartStep2Activity(Context context) {
-        Intent intent =new Intent(context, Step2Activity.class);
-        context.startActivity(intent);
-    }
+    @Inject
+    Step2Presenter mPresenter;
 
     private void init() {
 
@@ -40,5 +35,30 @@ public class Step2Activity extends AppCompatActivity {
 
         int color = this.getResources().getColor(R.color.colorRed);
         window.setStatusBarColor(color);
+    }
+
+    @Override
+    protected int getViewId() {
+        return R.layout.activity_step2;
+    }
+
+    @Override
+    protected void create() {
+
+        init();
+        mPresenter.attachView(this);
+    }
+
+    @Override
+    protected void initInject() {
+
+        getActivityComponent().inject(this);
+    }
+
+
+    public static void Start(Context context) {
+
+        Intent intent = new Intent(context, Step2Activity.class);
+        context.startActivity(intent);
     }
 }

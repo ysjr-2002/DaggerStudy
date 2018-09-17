@@ -50,9 +50,9 @@ public class MySurfaceView extends View {
             mPaint.setColor(mBlueColor);
         }
 //        mPaint.setAlpha(60);
-        mPaint.setTextSize(60);
-        //mPaint.setStyle(Paint.Style.FILL);
-        canvas.drawText("你我是的宝贝", 10,120, mPaint);
+//        mPaint.setTextSize(40);
+//        mPaint.setStyle(Paint.Style.FILL);
+//        canvas.drawText("你我是的宝贝", 0,200, mPaint);
         canvas.drawRect(rect, mPaint);
     }
 

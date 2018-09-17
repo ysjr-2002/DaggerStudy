@@ -1,14 +1,14 @@
 package com.visitor.obria.yourapplication;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.visitor.obria.yourapplication.component.ActivityComponent;
+import com.visitor.obria.yourapplication.component.AppComponent;
 import com.visitor.obria.yourapplication.component.DaggerActivityComponent;
-import com.visitor.obria.yourapplication.module.StudentModule;
+import com.visitor.obria.yourapplication.module.AppModule;
 
 import butterknife.ButterKnife;
 
@@ -22,17 +22,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initInject();
 
-        onCreate();
+        create();
     }
 
-    abstract @LayoutRes int getViewId();
+    abstract @LayoutRes
+    protected int getViewId();
 
-    abstract void onCreate();
+    protected abstract void create();
 
-    abstract void initInject();
+    protected abstract void initInject();
+
+    protected AppComponent getAppcomponent() {
+
+        return MyApplication.getInstance().getAppComponent();
+    }
 
     protected ActivityComponent getActivityComponent() {
 
-        return DaggerActivityComponent.builder().studentModule(new StudentModule()).build();
+        return DaggerActivityComponent.builder().appComponent(getAppcomponent()).build();
     }
 }

@@ -1,23 +1,16 @@
-package com.visitor.obria.yourapplication.model;
+package com.visitor.obria.yourapplication.bean;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-/**
- * created by yangshaojie  on 2018/9/6
- * email: ysjr-2002@163.com
- */
-
 @Singleton
-public class Student {
+public class StudenBean {
 
-    public Student() {
-
-        this.name = "shit shit shit shit shit shit shit shit";
+    public StudenBean() {
+        this.name ="加油加油";
     }
 
     private String name;
-
 
     public String getName() {
         return name;

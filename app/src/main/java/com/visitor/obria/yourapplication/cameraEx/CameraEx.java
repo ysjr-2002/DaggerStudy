@@ -1,17 +1,22 @@
 package com.visitor.obria.yourapplication.cameraEx;
 
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
+import android.graphics.RectF;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.TextureView;
 
+import com.visitor.obria.yourapplication.FaceView;
 import com.visitor.obria.yourapplication.camera.CameraPreviewData;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("ALL")
-public class CameraEx {
+public class CameraEx implements Camera.FaceDetectionListener {
 
     private Camera camera;
     private TextureView textureView;
@@ -20,7 +25,11 @@ public class CameraEx {
 
     public void open(boolean front) {
 
-        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        if (front) {
+            camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        } else {
+            camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        }
         try {
             Camera.Parameters param = camera.getParameters();
             param.setPreviewSize(1920, 1080);
@@ -38,19 +47,20 @@ public class CameraEx {
             int bufSize = sz.width * sz.height * pixelinfo.bitsPerPixel / 8;
             camera.addCallbackBuffer(new byte[bufSize]);
 
-            camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
-                @Override
-                public void onPreviewFrame(byte[] data, Camera temp) {
+            int max_face = param.getMaxNumDetectedFaces();
+            camera.setFaceDetectionListener(this);
 
-                    Log.d("shit", "buffer->" + data.length + "");
-
-                    if (listener != null) {
-                        CameraPreviewData previewData = new CameraPreviewData(data, previewSize.width, previewSize.height, 0, true);
-                        listener.onPictureTaken(previewData);
-                    }
-                    temp.addCallbackBuffer(data);
-                }
-            });
+//            camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
+//                @Override
+//                public void onPreviewFrame(byte[] data, Camera temp) {
+//                    Log.d("shit", "buffer->" + data.length + "");
+//                    if (listener != null) {
+//                        CameraPreviewData previewData = new CameraPreviewData(data, previewSize.width, previewSize.height, 0, true);
+//                        listener.onPictureTaken(previewData);
+//                    }
+//                    temp.addCallbackBuffer(data);
+//                }
+//            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +68,7 @@ public class CameraEx {
 
     public void startPreview() {
         camera.startPreview();
+        camera.startFaceDetection();
     }
 
     public void setTexture(TextureView textureView) {
@@ -76,6 +87,48 @@ public class CameraEx {
             camera.release();
             camera = null;
         }
+    }
+
+    @Override
+    public void onFaceDetection(Camera.Face[] faces, Camera camera) {
+
+        for (Camera.Face face :
+                faces) {
+
+            float score = face.score;
+            Log.d("ysj", "score->" + score);
+            Log.d("ysj", "x=" + face.rect.left + " y =" + face.rect.top + " l=" + face.rect.right + " b=" + face.rect.bottom);
+        }
+
+        mFaceView.setFaces(transForm(faces));
+    }
+
+    private List<RectF> transForm(Camera.Face[] faces) {
+
+        Matrix matrix = new Matrix();
+        matrix.setScale(-1f, 1f);
+        matrix.postRotate(90f);
+        matrix.postScale(mFaceView.getWidth() / 2000f, mFaceView.getHeight() / 2000f);
+        matrix.postTranslate(mFaceView.getWidth() / 2f, mFaceView.getHeight() / 2f);
+
+        List<RectF> temp = new ArrayList<>();
+        for (Camera.Face face :
+                faces) {
+
+            RectF srcRect = new RectF(face.rect);
+            RectF dstRect = new  RectF(0f, 0f, 0f, 0f);
+            matrix.mapRect(dstRect, srcRect);
+            temp.add(dstRect);
+        }
+        return temp;
+    }
+
+
+    private FaceView mFaceView;
+
+    public void setFaceView(FaceView view) {
+
+        this.mFaceView = view;
     }
 
     public interface CameraListener {
