@@ -5,13 +5,16 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.camera.CameraPreviewData;
 import com.visitor.obria.yourapplication.cameraEx.CameraEx;
 import com.visitor.obria.yourapplication.cameraEx.TextureViewEx;
+import com.visitor.obria.yourapplication.util.DeviceUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,12 +61,19 @@ public class MainActivity extends BaseActivity implements CameraEx.CameraListene
 
     boolean bTake = false;
 
-    @OnClick({R.id.button, R.id.btn_take})
+    @OnClick({R.id.button, R.id.btn_take, R.id.btn_open})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
             case R.id.button:
-                cameraEx.open(true);
+
+                DisplayMetrics dm = this.getResources().getDisplayMetrics();
+                int w = dm.widthPixels;
+                int h = dm.heightPixels;
+                int dpi = dm.densityDpi;
+                String s = String.format("w=%s h=%s dpi=%s", w, h, dpi);
+                Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+                cameraEx.open(false);
                 cameraEx.setListener(this);
                 cameraEx.setFaceView(faceview);
                 cameraEx.startPreview();
@@ -73,6 +83,8 @@ public class MainActivity extends BaseActivity implements CameraEx.CameraListene
                 break;
         }
     }
+
+
 
     @Override
     public void onPictureTaken(CameraPreviewData data) {

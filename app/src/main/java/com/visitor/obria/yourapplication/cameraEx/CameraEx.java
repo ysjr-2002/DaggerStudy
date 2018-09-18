@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.hardware.Camera;
 import android.util.Log;
+import android.util.Size;
 import android.view.TextureView;
 
 import com.visitor.obria.yourapplication.activity.FaceView;
@@ -22,6 +23,8 @@ public class CameraEx implements Camera.FaceDetectionListener {
     private CameraListener listener;
     private Camera.Size previewSize = null;
 
+    private int max_faces = 0;
+
     public void open(boolean front) {
 
         if (front) {
@@ -31,9 +34,16 @@ public class CameraEx implements Camera.FaceDetectionListener {
         }
         try {
             Camera.Parameters param = camera.getParameters();
+
+            List<Camera.Size> test = param.getSupportedPreviewSizes();
+            for (Camera.Size temp :
+                    test) {
+                Log.d("shit", temp.width + " " + temp.height);
+            }
             param.setPreviewSize(1920, 1080);
             param.setPreviewFormat(ImageFormat.NV21);
             camera.setParameters(param);
+
             camera.setDisplayOrientation(90);
             camera.setPreviewTexture(textureView.getSurfaceTexture());
 
@@ -46,8 +56,10 @@ public class CameraEx implements Camera.FaceDetectionListener {
             int bufSize = sz.width * sz.height * pixelinfo.bitsPerPixel / 8;
             camera.addCallbackBuffer(new byte[bufSize]);
 
-            int max_face = param.getMaxNumDetectedFaces();
-            camera.setFaceDetectionListener(this);
+            max_faces = param.getMaxNumDetectedFaces();
+            if (max_faces > 0) {
+                camera.setFaceDetectionListener(this);
+            }
 
 //            camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
 //                @Override
@@ -67,7 +79,10 @@ public class CameraEx implements Camera.FaceDetectionListener {
 
     public void startPreview() {
         camera.startPreview();
-        camera.startFaceDetection();
+
+        if (max_faces > 0) {
+            camera.startFaceDetection();
+        }
     }
 
     public void setTexture(TextureView textureView) {
@@ -115,7 +130,7 @@ public class CameraEx implements Camera.FaceDetectionListener {
                 faces) {
 
             RectF srcRect = new RectF(face.rect);
-            RectF dstRect = new  RectF(0f, 0f, 0f, 0f);
+            RectF dstRect = new RectF(0f, 0f, 0f, 0f);
             matrix.mapRect(dstRect, srcRect);
             temp.add(dstRect);
         }

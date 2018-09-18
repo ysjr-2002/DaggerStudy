@@ -32,7 +32,8 @@ public class TextureViewEx extends TextureView implements TextureView.SurfaceTex
 
         mSurfaceTexture = surface;
         Matrix matrix = new Matrix();
-//        matrix.preRotate(45);
+        matrix.setTranslate(1920, 0);
+        matrix.preScale(-1, 1);
         setTransform(matrix);
     }
 

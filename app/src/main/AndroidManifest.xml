@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.TouchActivity">
+        <activity android:name=".activity.DeviceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,8 +29,9 @@
         <activity android:name=".qinru.Step1Activity" />
         <activity android:name=".activity.QueueActivity" />
         <activity android:name=".qinru.Step2Activity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.MatrixActivity"></activity>
+        <activity android:name=".activity.TouchActivity" />
+        <activity android:name=".activity.MatrixActivity" />
+        <activity android:name=".activity.MainActivity"></activity>
     </application>
 
 </manifest>
