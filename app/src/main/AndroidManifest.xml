@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-sdk android:minSdkVersion="21"/>
+
+    <uses-feature android:name="android.hardware.usb.host"/>
+
     <application
         android:name=".activity.MyApplication"
         android:allowBackup="true"
@@ -14,12 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.OkHttpActivity">
+        <activity android:name=".activity.SerialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
+
+            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" android:resource="@xml/device_filter"></meta-data>
         </activity>
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.StudentActivity" />
@@ -32,7 +38,8 @@
         <activity android:name=".activity.TouchActivity" />
         <activity android:name=".activity.MatrixActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.DeviceActivity"></activity>
+        <activity android:name=".activity.DeviceActivity" />
+        <activity android:name=".activity.OkHttpActivity"></activity>
     </application>
 
 </manifest>

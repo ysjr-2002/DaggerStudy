@@ -1,5 +1,6 @@
 package com.visitor.obria.yourapplication.activity;
 
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TimeUtils;
@@ -61,8 +62,8 @@ public class OkHttpActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
                 String error = e.getMessage();
+                myToast(error);
             }
 
             @Override
@@ -71,19 +72,29 @@ public class OkHttpActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     String message = response.message();
                     final String body = response.body().string();
-                    OkHttpActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(OkHttpActivity.this, body, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    myToast(body);
                 }
-
                 if (response.isSuccessful()) {
 
                 }
             }
         });
+    }
+
+    private void myToast(final String msg) {
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        } else
+
+        {
+            OkHttpActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    myToast(msg);
+                }
+            });
+        }
     }
 
     public class RetryInterceptor implements Interceptor {
