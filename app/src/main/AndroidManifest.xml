@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SerialActivity">
+        <activity android:name=".activity.OkHttpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -39,7 +39,7 @@
         <activity android:name=".activity.MatrixActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.DeviceActivity" />
-        <activity android:name=".activity.OkHttpActivity"></activity>
+        <activity android:name=".activity.SerialActivity"></activity>
     </application>
 
 </manifest>

@@ -8,13 +8,18 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.zxing.common.StringUtils;
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.bean.StudenBean;
+import com.visitor.obria.yourapplication.util.CharUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -37,7 +42,30 @@ public class OkHttpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ok_http);
 
+        charTest();
         oktest();
+    }
+
+    private void charTest() {
+
+        byte a = (byte) 'a';
+        byte b = (byte) 'A';
+        byte c = (byte) '1';
+        byte d = (byte) '9';
+
+        String e = "abcd";
+        try {
+            byte[] ee = e.getBytes("ascii");
+            byte[] ff = e.getBytes();
+            byte[] gg = e.getBytes("utf-8");
+            String shit = "";
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+
+        String hex = CharUtil.intToHex(10);
+        int hex_i = Integer.parseInt("0a",16);
+        String stop = "";
     }
 
     private void oktest() {
