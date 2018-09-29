@@ -1,9 +1,11 @@
 package com.visitor.obria.yourapplication.activity;
 
 import android.content.Context;
+import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,7 +17,9 @@ import com.visitor.obria.yourapplication.bean.HSFaceBean;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.chrono.MinguoChronology;
 import java.util.Calendar;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +40,9 @@ public class SerialActivity extends AppCompatActivity {
     TextView etLog;
     private PL2303Driver mSerial = null;
 
+    final static String TAG = "kaka";
+    private PL2303Driver.BaudRate mBaudrate = PL2303Driver.BaudRate.B9600;
+
     private static final String connect_error = "设备连接失败";
 
     String text = "";
@@ -46,7 +53,131 @@ public class SerialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_serial);
         ButterKnife.bind(this);
 
-        hsRemoteTest();
+        //hsRemoteTest();
+    }
+
+    @OnClick({R.id.btn_find, R.id.btn_open, R.id.btn_get_serialnumber, R.id.btn_read, R.id.btn_write})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_find:
+                find();
+                break;
+            case R.id.btn_open:
+                open();
+                break;
+            case R.id.btn_get_serialnumber:
+                getSerialnumber();
+                break;
+            case R.id.btn_read:
+                read();
+                break;
+            case R.id.btn_write:
+                write();
+                break;
+        }
+    }
+
+    private void find() {
+        UsbManager usbManager = null;
+        Object temp = getSystemService(Context.USB_SERVICE);
+        if (temp instanceof UsbManager) {
+            usbManager = (UsbManager) temp;
+        }
+        mSerial = new PL2303Driver(usbManager, this, ACTION_USB_PERMISSION);
+        if (!mSerial.PL2303USBFeatureSupported()) {
+            myToast("不支持");
+            return;
+        } else {
+            myToast("PL2303USBFeatureSupported is ok");
+        }
+
+        if (!mSerial.enumerate()) {
+            //Found a PL2303HXD device , the default VID_PID is 067B_2303
+            myToast("查找失败");
+        } else {
+            myToast("enumerate is ok");
+        }
+
+        Map<String, UsbDevice> maps = usbManager.getDeviceList();
+        for (Map.Entry<String, UsbDevice> item :
+                maps.entrySet()) {
+
+            Log.d(TAG, item.getKey());
+            Log.d(TAG, "vernderid->" + item.getValue().getVendorId() + " product->" + item.getValue().getProductId());
+        }
+    }
+
+    private void open() {
+
+        boolean bInit = false;
+        bInit = mSerial.isConnected();
+        if (bInit) {
+            mBaudrate = PL2303Driver.BaudRate.B9600;
+            bInit = mSerial.InitByBaudRate(mBaudrate, 700);
+            if (!bInit) {
+                myToast("设备打开成功");
+            } else {
+                myToast("设备打开失败");
+            }
+
+            if (!mSerial.PL2303Device_IsHasPermission()) {
+                myToast("没有权限");
+            } else {
+                myToast("已授权");
+            }
+
+            if (!mSerial.PL2303Device_IsSupportChip()) {
+                myToast("不支持芯片");
+            }
+        }
+    }
+
+    private void write() {
+
+        if (mSerial.isConnected()) {
+            byte[] data = "123".getBytes();
+            int len = mSerial.write(data, data.length);
+            if (len == data.length) {
+                myToast("输出成功");
+
+                byte[] receive = new byte[16];
+                len = mSerial.read(receive);
+                if (len > 0) {
+                    myToast("测试成功");
+                } else {
+                    myToast("测试失败");
+                }
+            } else {
+                myToast("输出失败");
+            }
+        } else {
+
+            myToast(connect_error);
+        }
+    }
+
+    private void read() {
+
+        if (mSerial.isConnected()) {
+            byte[] data = new byte[1024];
+            int len = mSerial.read(data);
+            if (len == 0) {
+                myToast("read empty");
+            }
+        } else {
+            myToast(connect_error);
+        }
+    }
+
+    private void getSerialnumber() {
+
+        if (mSerial.isConnected() == false) {
+            myToast("未连接");
+            return;
+        }
+
+        String number = mSerial.PL2303Device_GetSerialNumber();
+        myToast(String.format("序列号: %s", number));
     }
 
     private void hsRemoteTest() {
@@ -99,112 +230,12 @@ public class SerialActivity extends AppCompatActivity {
         etLog.setText(text);
     }
 
-    @OnClick({R.id.btn_find, R.id.btn_open, R.id.btn_get_serialnumber, R.id.btn_read, R.id.btn_write})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_find:
-                find();
-                break;
-            case R.id.btn_open:
-                open();
-                break;
-            case R.id.btn_get_serialnumber:
-                getSerialnumber();
-                break;
-            case R.id.btn_read:
-                read();
-                break;
-            case R.id.btn_write:
-                write();
-                break;
-        }
-    }
-
-    private void find() {
-        UsbManager usbManager = null;
-        Object temp = getSystemService(Context.USB_SERVICE);
-        if (temp instanceof UsbManager) {
-            usbManager = (UsbManager) temp;
-        }
-        mSerial = new PL2303Driver(usbManager, this, ACTION_USB_PERMISSION);
-        if (!mSerial.PL2303USBFeatureSupported()) {
-            myToast("不支持");
-            return;
-        }
-
-        if (!mSerial.enumerate()) {
-            //Found a PL2303HXD device , the default VID_PID is 067B_2303
-            myToast("查找失败");
-            return;
-        }
-    }
-
-    private void open() {
-
-        boolean bInit = mSerial.InitByBaudRate(PL2303Driver.BaudRate.B9600, 700);
-        if (!bInit) {
-            myToast("设备打开失败");
-            return;
-        }
-
-        if (!mSerial.PL2303Device_IsHasPermission()) {
-            myToast("没有权限");
-            return;
-        }
-
-        if (!mSerial.PL2303Device_IsSupportChip()) {
-            myToast("不支持芯片");
-            return;
-        }
-    }
-
-    private void write() {
-
-        if (mSerial.isConnected()) {
-            byte[] data = "123".getBytes();
-            int len = mSerial.write(data, data.length);
-            if (len == data.length) {
-                myToast("输出成功");
-            } else {
-                myToast("输出失败");
-            }
-        } else {
-
-            myToast(connect_error);
-        }
-    }
-
-    private void read() {
-
-        if (mSerial.isConnected()) {
-            byte[] data = new byte[1024];
-            int len = mSerial.read(data);
-            if (len == 0) {
-                myToast("read empty");
-            }
-        } else {
-            myToast(connect_error);
-        }
-    }
-
-    private void getSerialnumber() {
-
-        if (mSerial.isConnected() == false) {
-            myToast("未连接");
-            return;
-        }
-
-        String number = mSerial.PL2303Device_GetSerialNumber();
-        myToast(String.format("序列号: %s", number));
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (mSerial != null) {
-            mSerial.end();
-            mSerial = null;
-        }
+//        if (mSerial != null) {
+//            mSerial.end();
+//            mSerial = null;
+//        }
     }
 }
