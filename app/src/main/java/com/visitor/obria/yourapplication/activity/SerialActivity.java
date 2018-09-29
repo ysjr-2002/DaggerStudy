@@ -138,7 +138,6 @@ public class SerialActivity extends AppCompatActivity {
     private void getSerialnumber() {
 
         if (mSerial.isConnected() == false) {
-
             myToast("未连接");
             return;
         }
@@ -150,5 +149,10 @@ public class SerialActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mSerial != null) {
+            mSerial.end();
+            mSerial = null;
+        }
     }
 }
