@@ -9,14 +9,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.visitor.obria.yourapplication.R;
+import com.visitor.obria.yourapplication.bean.HSFaceBean;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tw.com.prolific.driver.pl2303.PL2303Driver;
 
 public class SerialActivity extends AppCompatActivity {
@@ -35,6 +45,48 @@ public class SerialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serial);
         ButterKnife.bind(this);
+
+        hsRemoteTest();
+    }
+
+    private void hsRemoteTest() {
+
+        Gson gson = new Gson();
+        HSFaceBean bean = new HSFaceBean(1, "ysj", "123", "remark");
+        String json = gson.toJson(bean);
+
+
+        String url = "http://192.168.3.54:10001/api/wg/check/";
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        OkHttpClient client = builder.build();
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), json);
+        final Request request = new Request.Builder().url(url).post(requestBody).build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                if (response.isSuccessful() && response.code() == 200) {
+
+                    final String content = response.body().string();
+
+                    SerialActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            myToast(content);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void myToast(String msg) {
