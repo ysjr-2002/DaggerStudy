@@ -1,5 +1,6 @@
 package com.visitor.obria.yourapplication.module;
 
+import com.visitor.obria.yourapplication.api.HSRetrofitHelper;
 import com.visitor.obria.yourapplication.bean.StudenBean;
 
 import javax.inject.Singleton;
@@ -16,7 +17,6 @@ import dagger.Provides;
 public class AppModule {
 
     public AppModule() {
-
     }
 
     @Singleton
@@ -24,4 +24,10 @@ public class AppModule {
     public StudenBean provideStudent() {
         return new StudenBean();
     }
+//
+//    @Singleton
+//    @Provides
+//    public HSRetrofitHelper provideHSRetrofitHelper() {
+//        return new HSRetrofitHelper();
+//    }
 }

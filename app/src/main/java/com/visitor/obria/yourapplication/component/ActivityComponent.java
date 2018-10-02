@@ -1,6 +1,7 @@
 package com.visitor.obria.yourapplication.component;
 
 import com.visitor.obria.yourapplication.activity.MainActivity;
+import com.visitor.obria.yourapplication.activity.OkHttpActivity;
 import com.visitor.obria.yourapplication.activity.UserActivity;
 import com.visitor.obria.yourapplication.qinru.Step1Activity;
 import com.visitor.obria.yourapplication.qinru.Step2Activity;
@@ -23,4 +24,6 @@ public interface ActivityComponent {
     void inject(Step1Activity activity);
 
     void inject(Step2Activity activity);
+
+    void inject(OkHttpActivity activity);
 }

@@ -1,5 +1,6 @@
 package com.visitor.obria.yourapplication.component;
 
+import com.visitor.obria.yourapplication.api.HSRetrofitHelper;
 import com.visitor.obria.yourapplication.bean.StudenBean;
 import com.visitor.obria.yourapplication.module.AppModule;
 
@@ -12,4 +13,5 @@ import dagger.Component;
 public interface AppComponent {
 
     StudenBean test();
+    HSRetrofitHelper shit();
 }

@@ -1,27 +1,26 @@
 package com.visitor.obria.yourapplication.activity;
 
+import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.TimeUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.zxing.common.StringUtils;
 import com.visitor.obria.yourapplication.R;
+import com.visitor.obria.yourapplication.api.HSRetrofitHelper;
 import com.visitor.obria.yourapplication.bean.StudenBean;
+import com.visitor.obria.yourapplication.response.HSResponse;
 import com.visitor.obria.yourapplication.util.CharUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Interceptor;
@@ -31,41 +30,69 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class OkHttpActivity extends AppCompatActivity {
+public class OkHttpActivity extends BaseActivity {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
     private final String url = "http://192.168.3.54:10001/api/wg/check/";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ok_http);
+    @Inject
+    HSRetrofitHelper mHSRetrofitHelper;
 
-        charTest();
+    @Override
+    protected int getViewId() {
+        return R.layout.activity_ok_http;
+    }
+
+    @Override
+    protected void create() {
         oktest();
     }
 
-    private void charTest() {
+    @Override
+    protected void initInject() {
 
-        byte a = (byte) 'a';
-        byte b = (byte) 'A';
-        byte c = (byte) '1';
-        byte d = (byte) '9';
+        getActivityComponent().inject(this);
+    }
 
-        String e = "abcd";
-        try {
-            byte[] ee = e.getBytes("ascii");
-            byte[] ff = e.getBytes();
-            byte[] gg = e.getBytes("utf-8");
-            String shit = "";
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mHSRetrofitHelper.init();
+    }
+
+    @OnClick({R.id.btn_okhttp, R.id.btn_okretrofit})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_okhttp:
+                oktest();
+                break;
+            case R.id.btn_okretrofit:
+                postERP();
+                break;
         }
+    }
 
-        String hex = CharUtil.intToHex(10);
-        int hex_i = Integer.parseInt("0a",16);
-        String stop = "";
+    private void postERP() {
+
+        retrofit2.Call<HSResponse> call = mHSRetrofitHelper.postERP();
+        call.enqueue(new retrofit2.Callback<HSResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<HSResponse> call, retrofit2.Response<HSResponse> response) {
+
+                if (response.isSuccessful() && response.code() == 200) {
+
+                    HSResponse hsResponse = response.body();
+                    int code= hsResponse.getCode();
+                    String message = hsResponse.getMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<HSResponse> call, Throwable t) {
+
+                String error = t.getMessage();
+            }
+        });
     }
 
     private void oktest() {
@@ -125,6 +152,8 @@ public class OkHttpActivity extends AppCompatActivity {
         }
     }
 
+
+
     public class RetryInterceptor implements Interceptor {
 
         private int maxRetry = 0; //最大重试次数
@@ -149,5 +178,4 @@ public class OkHttpActivity extends AppCompatActivity {
             return response;
         }
     }
-
 }

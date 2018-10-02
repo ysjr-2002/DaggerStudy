@@ -1,7 +1,11 @@
 package com.visitor.obria.yourapplication.activity;
 
 import android.content.Context;
+import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbEndpoint;
+import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -84,6 +88,7 @@ public class SerialActivity extends AppCompatActivity {
             usbManager = (UsbManager) temp;
         }
         mSerial = new PL2303Driver(usbManager, this, ACTION_USB_PERMISSION);
+
         if (!mSerial.PL2303USBFeatureSupported()) {
             myToast("不支持");
             return;
@@ -97,23 +102,14 @@ public class SerialActivity extends AppCompatActivity {
         } else {
             myToast("enumerate is ok");
         }
-
-        Map<String, UsbDevice> maps = usbManager.getDeviceList();
-        for (Map.Entry<String, UsbDevice> item :
-                maps.entrySet()) {
-
-            Log.d(TAG, item.getKey());
-            Log.d(TAG, "vernderid->" + item.getValue().getVendorId() + " product->" + item.getValue().getProductId());
-        }
     }
 
     private void open() {
-
         boolean bInit = false;
         bInit = mSerial.isConnected();
         if (bInit) {
             mBaudrate = PL2303Driver.BaudRate.B9600;
-            bInit = mSerial.InitByBaudRate(mBaudrate, 700);
+            bInit = mSerial.InitByBaudRate(mBaudrate, 1500);
             if (!bInit) {
                 myToast("设备打开成功");
             } else {
@@ -158,15 +154,36 @@ public class SerialActivity extends AppCompatActivity {
 
     private void read() {
 
-        if (mSerial.isConnected()) {
-            byte[] data = new byte[1024];
-            int len = mSerial.read(data);
-            if (len == 0) {
-                myToast("read empty");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while (true) {
+                    if (mSerial.isConnected()) {
+                        byte[] data = new byte[4];
+                        int len = mSerial.read(data);
+                        if (len == 0) {
+                            //myToast("read empty");
+                            Log.d(TAG, "emtpy");
+                        } else {
+                            Log.d(TAG, "ok");
+                        }
+                        if (data[2] > 0) {
+                            String shit = "";
+                        }
+                    } else {
+                        //myToast(connect_error);
+                        Log.d(TAG, "error");
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } else {
-            myToast(connect_error);
-        }
+        }).start();
+
     }
 
     private void getSerialnumber() {
@@ -185,7 +202,6 @@ public class SerialActivity extends AppCompatActivity {
         Gson gson = new Gson();
         HSFaceBean bean = new HSFaceBean(1, "ysj", "123", "remark");
         String json = gson.toJson(bean);
-
 
         String url = "http://192.168.3.54:10001/api/wg/check/";
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
