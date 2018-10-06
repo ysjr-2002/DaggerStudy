@@ -1,8 +1,10 @@
 package com.visitor.obria.yourapplication.activity;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +17,11 @@ import com.visitor.obria.yourapplication.util.CharUtil;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -34,6 +41,8 @@ public class OkHttpActivity extends BaseActivity {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String url = "http://192.168.3.54:10001/api/wg/check/";
+
+    private final String TAG = "kaka";
 
     @Inject
     HSRetrofitHelper mHSRetrofitHelper;
@@ -60,30 +69,99 @@ public class OkHttpActivity extends BaseActivity {
         mHSRetrofitHelper.init();
     }
 
-    @OnClick({R.id.btn_okhttp, R.id.btn_okretrofit})
+    @OnClick({R.id.btn_okhttp, R.id.btn_okretrofit, R.id.btn_block_test, R.id.btn_block_stop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_okhttp:
                 oktest();
                 break;
             case R.id.btn_okretrofit:
-                postERP();
+                postERP("test");
+                break;
+            case R.id.btn_block_test:
+                ProductThread.start();
+                okThread = new RecognizeThread();
+                okThread.start();
+                break;
+            case R.id.btn_block_stop:
+                stop();
                 break;
         }
     }
 
-    private void postERP() {
+    private void stop() {
 
-        retrofit2.Call<HSResponse> call = mHSRetrofitHelper.postERP();
+        okThread.interrupt();
+    }
+
+    private Thread ProductThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            int i = 0;
+            while (true) {
+                block.offer(String.valueOf(i));
+
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    RecognizeThread okThread = null;
+    BlockingQueue<String> block = new ArrayBlockingQueue<String>(5);
+
+    private class RecognizeThread extends Thread {
+
+        private boolean isInterrupted;
+
+        @Override
+        public void run() {
+            try {
+                while (!Thread.currentThread().isInterrupted() && !isInterrupted) {
+                    String data = block.take();
+                    //printDate("start");
+                    blockTest(data);
+                    //printDate("end");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void interrupt() {
+            isInterrupted = true;
+            super.interrupt();
+        }
+    }
+
+    private void printDate(String prefix) {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        String time = prefix + ":" + df.format(date);
+        Log.d(TAG, time);
+    }
+
+    private void blockTest(String data) {
+
+        postERP(data);
+    }
+
+    private void postERP(String name) {
+
+        retrofit2.Call<HSResponse> call = mHSRetrofitHelper.postERP(name);
         call.enqueue(new retrofit2.Callback<HSResponse>() {
             @Override
             public void onResponse(retrofit2.Call<HSResponse> call, retrofit2.Response<HSResponse> response) {
 
                 if (response.isSuccessful() && response.code() == 200) {
-
                     HSResponse hsResponse = response.body();
-                    int code= hsResponse.getCode();
+                    int code = hsResponse.getCode();
                     String message = hsResponse.getMessage();
+                    printDate("back");
                 }
             }
 
@@ -91,6 +169,10 @@ public class OkHttpActivity extends BaseActivity {
             public void onFailure(retrofit2.Call<HSResponse> call, Throwable t) {
 
                 String error = t.getMessage();
+                if (error == null) {
+                    error = "错误";
+                }
+                Log.d(TAG, error);
             }
         });
     }
@@ -151,7 +233,6 @@ public class OkHttpActivity extends BaseActivity {
             });
         }
     }
-
 
 
     public class RetryInterceptor implements Interceptor {

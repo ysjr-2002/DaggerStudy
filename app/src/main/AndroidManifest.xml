@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.OkHttpActivity" android:windowSoftInputMode="stateHidden">
+        <activity android:name=".activity.MyUsbSerialActivity" android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -36,7 +36,7 @@
         <activity android:name=".activity.MatrixActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.DeviceActivity" />
-        <activity android:name=".activity.MyUsbSerialActivity" />
+        <activity android:name=".activity.OkHttpActivity" />
         <activity android:name=".activity.UsbActivity" />
         <activity android:name=".activity.SerialActivity"/>
     </application>
