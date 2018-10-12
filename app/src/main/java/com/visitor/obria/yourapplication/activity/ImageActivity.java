@@ -45,8 +45,7 @@ public class ImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         boolean hasSD = hasSDcard();
-        hideBottomUIMenu();
-
+        //hideBottomUIMenu();
     }
 
     private void hideBottomUIMenu() {

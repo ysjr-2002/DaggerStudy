@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ImageActivity"
+            android:name=".activity.ListViewActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +41,8 @@
         <activity android:name=".activity.OkHttpActivity" />
         <activity android:name=".activity.UsbActivity" />
         <activity android:name=".activity.SerialActivity" />
-        <activity android:name=".activity.MyUsbSerialActivity"></activity>
+        <activity android:name=".activity.MyUsbSerialActivity" />
+        <activity android:name=".activity.ImageActivity"></activity>
     </application>
 
 </manifest>
