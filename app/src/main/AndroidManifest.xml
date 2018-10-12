@@ -42,7 +42,8 @@
         <activity android:name=".activity.UsbActivity" />
         <activity android:name=".activity.SerialActivity" />
         <activity android:name=".activity.MyUsbSerialActivity" />
-        <activity android:name=".activity.ImageActivity"></activity>
+        <activity android:name=".activity.ImageActivity" />
+        <activity android:name=".activity.PersonAddActivity"></activity>
     </application>
 
 </manifest>
