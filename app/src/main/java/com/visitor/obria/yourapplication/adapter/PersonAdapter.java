@@ -3,10 +3,12 @@ package com.visitor.obria.yourapplication.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,16 +19,23 @@ import com.visitor.obria.yourapplication.dao.PersonBean;
 
 import java.util.List;
 
-public class PersonAdapter extends BaseAdapter {
+public class PersonAdapter extends ArrayAdapter<PersonBean> {
 
     private Context mContext;
     private List<PersonBean> mPersonBeans;
 
-    public PersonAdapter(Context context, List<PersonBean> list) {
+    public PersonAdapter(@NonNull Context context, int resource, @NonNull List<PersonBean> objects) {
+        super(context, resource, objects);
 
-        this.mContext = context;
-        this.mPersonBeans = list;
+        mContext = context;
+        mPersonBeans = objects;
     }
+
+//    public PersonAdapter(Context context, List<PersonBean> list) {
+//
+//        this.mContext = context;
+//        this.mPersonBeans = list;
+//    }
 
     @Override
     public int getCount() {
@@ -34,7 +43,7 @@ public class PersonAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public PersonBean getItem(int position) {
         return this.mPersonBeans.get(position);
     }
 

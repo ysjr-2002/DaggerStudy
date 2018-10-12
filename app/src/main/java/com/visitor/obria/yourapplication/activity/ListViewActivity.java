@@ -37,7 +37,7 @@ public class ListViewActivity extends AppCompatActivity {
         mPersonBeanDao = MyApplication.getInstance().getPersonBeanDao();
         List<PersonBean> list = mPersonBeanDao.loadAll();
 
-        mPersonAdapter = new PersonAdapter(this, list);
+        mPersonAdapter = new PersonAdapter(this, 0, list);
         lvPerson.setAdapter(mPersonAdapter);
     }
 
