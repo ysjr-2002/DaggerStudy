@@ -18,9 +18,20 @@ import android.widget.ImageView;
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.dao.PersonBean;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PersonAddActivity extends AppCompatActivity {
 
@@ -31,11 +42,65 @@ public class PersonAddActivity extends AppCompatActivity {
     @BindView(R.id.iv_photo)
     ImageView ivPhoto;
 
+    String picpath = "/mnt/sdcard/jsy.jpg";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_add);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        try {
+//            String path = MediaStore.Images.Media.insertImage(getContentResolver(), picpath, "米兰达可儿", "不好看");
+//            String debug = "";
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        downFile();
+    }
+
+    private void downFile() {
+
+        File file = new File(picpath);
+        if (file.exists()) {
+            return;
+        }
+
+        String url = "http://cms-bucket.nosdn.127.net/2018/10/10/20fa8ea2e70540cb9f5c36bebe281293.png?imageView&thumbnail=550x0";
+        Request request = new Request.Builder().url(url).get().build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                String error = e.getMessage();
+                String debug = "";
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                InputStream inputStream = response.body().byteStream();
+                //将输入流数据转化为Bitmap位图数据
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                File file = new File(picpath);
+                file.createNewFile();
+                //创建文件输出流对象用来向文件中写入数据
+                FileOutputStream out = new FileOutputStream(file);
+                //将bitmap存储为jpg格式的图片
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                //刷新文件流
+                out.flush();
+                out.close();
+
+            }
+        });
     }
 
     public static void Start(Context context) {
@@ -58,6 +123,16 @@ public class PersonAddActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mBitmap != null) {
+            mBitmap.recycle();
+            mBitmap = null;
+        }
+    }
+
     private void save() {
 
         String name = etName.getText().toString();
@@ -77,6 +152,7 @@ public class PersonAddActivity extends AppCompatActivity {
     }
 
     String photoPath = "";
+    Bitmap mBitmap;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -85,8 +161,8 @@ public class PersonAddActivity extends AppCompatActivity {
             if (requestCode == 100) {
                 Uri uri = data.getData();
                 photoPath = getRealPathFromUriAboveApi19(this, uri);
-                Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
-                ivPhoto.setImageBitmap(bitmap);
+                mBitmap = BitmapFactory.decodeFile(photoPath);
+                ivPhoto.setImageBitmap(mBitmap);
             }
         }
     }
