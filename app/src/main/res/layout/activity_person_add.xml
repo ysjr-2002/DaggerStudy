@@ -67,4 +67,10 @@
         android:text="保存"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:text="退出"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 </LinearLayout>

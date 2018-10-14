@@ -109,7 +109,7 @@ public class PersonAddActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    @OnClick({R.id.btn_save, R.id.iv_add})
+    @OnClick({R.id.btn_save, R.id.iv_add, R.id.btn_finish})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
@@ -120,7 +120,15 @@ public class PersonAddActivity extends AppCompatActivity {
             case R.id.iv_add:
                 choice();
                 break;
+            case R.id.btn_finish:
+                over();
+                break;
         }
+    }
+
+    private void over() {
+
+        MyApplication.getInstance().exitApp();
     }
 
     @Override
