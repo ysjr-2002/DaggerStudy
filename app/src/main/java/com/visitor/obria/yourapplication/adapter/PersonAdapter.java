@@ -59,7 +59,7 @@ public class PersonAdapter extends ArrayAdapter<PersonBean> {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_card_view, null);
 
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 60);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
             convertView.setLayoutParams(lp);
             viewHolder = new ViewHolder();
             viewHolder.mName = convertView.findViewById(R.id.tv_name);
