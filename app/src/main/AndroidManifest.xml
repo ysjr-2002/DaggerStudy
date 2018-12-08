@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.ListViewActivity"
+            android:name=".activity.FaceUploadActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +43,8 @@
         <activity android:name=".activity.SerialActivity" />
         <activity android:name=".activity.MyUsbSerialActivity" />
         <activity android:name=".activity.ImageActivity" />
-        <activity android:name=".activity.PersonAddActivity"></activity>
+        <activity android:name=".activity.PersonAddActivity" />
+        <activity android:name=".activity.ListViewActivity"></activity>
     </application>
 
 </manifest>

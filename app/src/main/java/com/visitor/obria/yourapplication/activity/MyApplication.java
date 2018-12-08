@@ -37,24 +37,21 @@ public class MyApplication extends Application {
         myApplication = this;
         mAppComponent = DaggerAppComponent.create();
 
-        DaoMaster.OpenHelper openHelper = new DaoMaster.DevOpenHelper(this, db_name);
-
-        SQLiteDatabase database = openHelper.getWritableDatabase();
-
-        DaoMaster daoMaster = new DaoMaster(database);
-        DaoSession daoSession = daoMaster.newSession();
-        mPersonBeanDao = daoSession.getPersonBeanDao();
-
-        mPersonBeanDao.deleteAll();
-
-        PersonBean bean = new PersonBean(1l, "123", "杨绍杰", "");
-        mPersonBeanDao.insert(bean);
-
-        bean = new PersonBean(1l, "456", "杜高丽", "");
-        mPersonBeanDao.insert(bean);
-
-        bean = new PersonBean(1l, "789", "杨林哲", "");
-        mPersonBeanDao.insert(bean);
+//        DaoMaster.OpenHelper openHelper = new DaoMaster.DevOpenHelper(this, db_name);
+//
+//        SQLiteDatabase database = openHelper.getWritableDatabase();
+//        DaoMaster daoMaster = new DaoMaster(database);
+//        DaoSession daoSession = daoMaster.newSession();
+//        mPersonBeanDao = daoSession.getPersonBeanDao();
+//        mPersonBeanDao.deleteAll();
+//        PersonBean bean = new PersonBean(1l, "123", "杨绍杰", "");
+//        mPersonBeanDao.insert(bean);
+//
+//        bean = new PersonBean(1l, "456", "杜高丽", "");
+//        mPersonBeanDao.insert(bean);
+//
+//        bean = new PersonBean(1l, "789", "杨林哲", "");
+//        mPersonBeanDao.insert(bean);
 
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
 
