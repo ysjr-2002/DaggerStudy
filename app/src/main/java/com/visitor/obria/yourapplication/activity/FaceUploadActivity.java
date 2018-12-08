@@ -36,7 +36,7 @@ public class FaceUploadActivity extends AppCompatActivity {
     @OnClick(R.id.button2)
     public void onViewClicked() {
 
-        String url = "http://192.168.0.5:10001/api/card/getface/";
+        String url = "http://192.168.3.54:10001/api/card/getface/";
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(3000, TimeUnit.MICROSECONDS);
         OkHttpClient okHttpClient = builder.build();
