@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="cc">
+        <item name="android:layout_height">32dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

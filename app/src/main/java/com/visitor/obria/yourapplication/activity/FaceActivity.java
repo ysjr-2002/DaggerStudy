@@ -53,15 +53,14 @@ public class FaceActivity extends AppCompatActivity {
         if (flag) {
 
             FragmentTransaction transaction = fm.beginTransaction();
-//            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.setCustomAnimations(R.anim.anim_enter, 0);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.show(ff);
             transaction.hide(mf);
             transaction.commit();
         } else {
 
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.hide(ff);
             transaction.show(mf);
             transaction.commit();
