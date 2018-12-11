@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.LayoutActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="AAA"
-        android:layout_alignParentLeft="true"
-        android:id="@+id/btn_a1"
-        style="@style/cc"
-        />
 
     <ImageView
-        android:id="@+id/img1"
-        android:src="@drawable/right"
-        android:layout_toRightOf="@id/btn_a1"
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="曹操"
+        android:scaleType="matrix"
+        android:src="@mipmap/face"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/face" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:text="AAA"
-        style="@style/cc"
-        android:layout_toRightOf="@id/img1"
-        android:id="@+id/btn_a2" />
+        android:layout_height="72dp"
+        android:text="这是一个神奇的时代"
+       android:gravity="center"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="368dp" />
 
-    <ImageView
-        android:id="@+id/img2"
-        android:src="@drawable/right"
-        android:layout_toRightOf="@id/btn_a2"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        tools:layout_editor_absoluteX="234dp" />
+</android.support.constraint.ConstraintLayout>
