@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation project(':MyUsbSerial')
+    implementation 'com.koushikdutta.async:androidasync:2.+'
 }
