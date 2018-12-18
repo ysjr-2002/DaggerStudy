@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.koushikdutta.async.http.Multimap;
+import com.koushikdutta.async.http.body.AsyncHttpRequestBody;
 import com.koushikdutta.async.http.body.JSONObjectBody;
 import com.koushikdutta.async.http.server.AsyncHttpServer;
 import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
@@ -85,6 +87,29 @@ public class HttpServerActivity extends AppCompatActivity {
                 bean.setName("are you ok");
                 String input = gson.toJson(bean);
                 response.send("application/json", input);
+            }
+        });
+
+        server.post("/api/postform", new HttpServerRequestCallback() {
+            @Override
+            public void onRequest(AsyncHttpServerRequest request, AsyncHttpServerResponse response) {
+
+                String contenttype= request.getBody().getContentType();
+                Multimap multimap = request.getHeaders().getMultiMap();
+
+                Object body = request.getBody();
+                AsyncHttpRequestBody<Multimap> requestBody = (AsyncHttpRequestBody<Multimap>) body;
+                if (requestBody != null) {
+
+                    Multimap param = requestBody.get();
+                    if (param != null) {
+
+                        String name = param.getString("username");
+                        String pwd = param.getString("password");
+                    }
+                }
+
+                response.send("are you ok");
             }
         });
 
