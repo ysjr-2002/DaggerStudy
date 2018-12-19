@@ -11,6 +11,9 @@
             <option value="$PROJECT_DIR$/MyUsbSerial" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/facecamera" />
+            <option value="$PROJECT_DIR$/facetv" />
+            <option value="$PROJECT_DIR$/facetv2" />
+            <option value="$PROJECT_DIR$/facewelcome" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
