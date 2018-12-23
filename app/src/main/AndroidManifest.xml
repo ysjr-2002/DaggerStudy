@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.HttpServerActivity"
+            android:name=".activity.ButtonStyleActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +46,8 @@
         <activity android:name=".activity.PersonAddActivity" />
         <activity android:name=".activity.ListViewActivity" />
         <activity android:name=".activity.FaceActivity" />
-        <activity android:name=".activity.LayoutActivity"></activity>
+        <activity android:name=".activity.LayoutActivity" />
+        <activity android:name=".activity.HttpServerActivity"></activity>
     </application>
 
 </manifest>

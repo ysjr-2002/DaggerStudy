@@ -1,1 +1,1 @@
-include ':app', ':MyUsbSerial', ':facecamera', ':facewelcome', ':facetv', ':facetv2'
+include ':app', ':MyUsbSerial', ':facetv'
