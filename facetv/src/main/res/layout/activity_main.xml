@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tv_bg"
-    android:id="@+id/root"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/bg_remind_blue"
         android:gravity="center"
         android:text="欢迎使用人脸识别迎宾系统"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="32sp" />
 
     <FrameLayout
         android:id="@+id/flcontainer"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        android:background="#0a99ff"
+        android:layout_centerInParent="true"></FrameLayout>
 
-    <include
-        layout="@layout/bottommenu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/rlsetting"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tv_fullscreen_bottom">
+
+        <Button
+            android:id="@+id/btnsetting"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/tv_button"
+            android:text="系统设置" />
+
+        <Button
+            android:id="@+id/btnregister"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/tv_button"
+            android:text="一键注册" />
+    </RelativeLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

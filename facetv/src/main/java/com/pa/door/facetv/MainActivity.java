@@ -3,25 +3,27 @@ package com.pa.door.facetv;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int POPUP_DELAY = 6000;
+    private static final int POPUP_DELAY = 10000;
     @BindView(R.id.flcontainer)
     FrameLayout flcontainer;
 //    @BindView(R.id.ivFace)
@@ -31,7 +33,16 @@ public class MainActivity extends AppCompatActivity {
 
     PopupWindow window = null;
     @BindView(R.id.root)
-    ConstraintLayout root;
+    RelativeLayout root;
+
+    @BindView(R.id.rlsetting)
+    RelativeLayout rlsetting;
+    @BindView(R.id.textView)
+    TextView textView;
+    @BindView(R.id.btnsetting)
+    Button btnsetting;
+    @BindView(R.id.btnregister)
+    Button btnregister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +67,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             //window.showAtLocation(root, Gravity.BOTTOM, 0, 0);
+//            rlsetting.setFocusable(true);
+            rlsetting.setVisibility(View.VISIBLE);
             return true;
         }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (window != null) {
-                window.dismiss();
-            }
+//            if (window != null) {
+//                window.dismiss();
+//            }
+            rlsetting.setVisibility(View.GONE);
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -76,11 +90,9 @@ public class MainActivity extends AppCompatActivity {
         String tip = String.format("w:%s h:%s density:%f", w, h, s);
         Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
 
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 while (true) {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -97,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-
             }
         }).start();
     }
@@ -105,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
     private void show() {
 
         View view = this.getLayoutInflater().inflate(R.layout.recognize, null, false);
+        flcontainer.removeAllViews();
         flcontainer.addView(view);
-
         flcontainer.setVisibility(View.VISIBLE);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -139,4 +150,16 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     });
+
+    @OnClick({R.id.btnsetting, R.id.btnregister})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnsetting:
+                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnregister:
+                Toast.makeText(this, "register", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 }
