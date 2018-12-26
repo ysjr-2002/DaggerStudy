@@ -25,7 +25,14 @@
         android:layout_height="450dp"
         android:layout_centerInParent="true"
         android:background="#0a99ff"
-        android:visibility="gone"></FrameLayout>
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivtest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/rlsetting"

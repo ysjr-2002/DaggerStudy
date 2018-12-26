@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -23,8 +24,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.koushikdutta.async.http.Multimap;
-import com.koushikdutta.async.http.body.AsyncHttpRequestBody;
-import com.koushikdutta.async.http.body.JSONObjectBody;
 import com.koushikdutta.async.http.body.UrlEncodedFormBody;
 import com.koushikdutta.async.http.server.AsyncHttpServer;
 import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
@@ -34,7 +33,11 @@ import com.pa.door.facetv.bean.AccessRecordBp;
 import com.pa.door.facetv.bean.HXFaceBean;
 import com.pa.door.facetv.util.IPUtil;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnregister;
 
     String host = "";
+    @BindView(R.id.ivtest)
+    ImageView ivtest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,6 +270,44 @@ public class MainActivity extends AppCompatActivity {
                 String debug = "";
             }
         });
+
+        read();
+    }
+
+    private void read() {
+
+        try {
+            InputStream inputStream = getAssets().open("pic.txt");
+            String base64 = getString(inputStream);
+            inputStream.close();
+
+            Bitmap bitmap = base64ToBitmap(base64);
+            ivtest.setImageBitmap(bitmap);
+            ivtest.invalidate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getString(InputStream inputStream) {
+        InputStreamReader inputStreamReader = null;
+        try {
+            inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+        StringBuffer sb = new StringBuffer("");
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 
     void queryface(String faceid) {
@@ -305,10 +348,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static Bitmap base64ToBitmap(String base64Data) {
         try {
-//            if (base64Data.startsWith("data:image/jpg;base64,") == false) {
-//                base64Data = "data:image/jpg;base64,"+base64Data;
-//            }
-//            base64Data = base64Data.substring(4);
+            int pos = base64Data.indexOf(",");
+            if (pos > -1) {
+                base64Data = base64Data.substring(pos + 1);
+            }
             byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             return bitmap;
