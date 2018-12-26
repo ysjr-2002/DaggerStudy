@@ -23,16 +23,17 @@
         android:id="@+id/flcontainer"
         android:layout_width="350dp"
         android:layout_height="450dp"
+        android:layout_centerInParent="true"
         android:background="#0a99ff"
-        android:layout_centerInParent="true"></FrameLayout>
+        android:visibility="gone"></FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/rlsetting"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/rlsetting"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/tv_fullscreen_bottom">
+        android:background="@drawable/tv_fullscreen_bottom"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btnsetting"

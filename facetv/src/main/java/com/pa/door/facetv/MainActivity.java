@@ -1,9 +1,13 @@
 package com.pa.door.facetv;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,9 +21,31 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.koushikdutta.async.http.Multimap;
+import com.koushikdutta.async.http.body.AsyncHttpRequestBody;
+import com.koushikdutta.async.http.body.JSONObjectBody;
+import com.koushikdutta.async.http.body.UrlEncodedFormBody;
+import com.koushikdutta.async.http.server.AsyncHttpServer;
+import com.koushikdutta.async.http.server.AsyncHttpServerRequest;
+import com.koushikdutta.async.http.server.AsyncHttpServerResponse;
+import com.koushikdutta.async.http.server.HttpServerRequestCallback;
+import com.pa.door.facetv.bean.AccessRecordBp;
+import com.pa.door.facetv.bean.HXFaceBean;
+import com.pa.door.facetv.util.IPUtil;
+
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnsetting;
     @BindView(R.id.btnregister)
     Button btnregister;
+
+    String host = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,30 +115,29 @@ public class MainActivity extends AppCompatActivity {
         int w = metrics.widthPixels;
         int h = metrics.heightPixels;
         float s = metrics.scaledDensity;
-        String tip = String.format("w:%s h:%s density:%f", w, h, s);
-        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            show();
-                        }
-                    });
-
-                    try {
-                        Thread.sleep(4 * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }).start();
+//        String tip = String.format("w:%s h:%s density:%f", w, h, s);
+//        Toast.makeText(this, tip, Toast.LENGTH_LONG).show();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    MainActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            show();
+//                        }
+//                    });
+//
+//                    try {
+//                        Thread.sleep(4 * 1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//        }).start();
     }
 
     private void show() {
@@ -160,6 +187,135 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnregister:
                 Toast.makeText(this, "register", Toast.LENGTH_SHORT).show();
                 break;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        host = IPUtil.getIP(this);
+        Toast.makeText(this, host, Toast.LENGTH_SHORT).show();
+
+        AsyncHttpServer server = new AsyncHttpServer();
+
+        server.post("/api/postface", new HttpServerRequestCallback() {
+            @Override
+            public void onRequest(AsyncHttpServerRequest request, AsyncHttpServerResponse response) {
+
+                String contentType = request.getBody().getContentType();
+                int length = request.getBody().length();
+                String uri = request.getPath();
+
+                Object body = request.getBody();
+                Gson gson = new Gson();
+
+                if (body instanceof UrlEncodedFormBody) {
+
+                    UrlEncodedFormBody formBody = (UrlEncodedFormBody) body;
+                    Multimap multimap = formBody.get();
+
+                    String postdata = multimap.getString("accessRecord");
+                    final AccessRecordBp face = gson.fromJson(postdata, AccessRecordBp.class);
+                    if (face != null) {
+
+                        String faceid = face.faceId;
+                        queryface(faceid);
+//                        MainActivity.this.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Bitmap bitmap = base64ToBitmap(face.image);
+//                                imageView2.setImageBitmap(bitmap);
+//                                imageView2.invalidate();
+//                                bitmap = null;
+//                            }
+//                        });
+                    }
+                }
+            }
+        });
+
+        server.listen(5000);
+
+        String netUrl = "http://192.168.0.90/linmu/server/url";
+        String url = "http://" + host + ":5000/api/postface";
+
+        OkHttpClient client = new OkHttpClient();
+
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("url", url);
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder().url(netUrl).post(formBody).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String body = response.body().string();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Toast.makeText(MainActivity.this, body, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                String debug = "";
+            }
+        });
+    }
+
+    void queryface(String faceid) {
+
+        if (TextUtils.isEmpty(faceid)) {
+            return;
+        }
+
+        String netUrl = "http://192.168.0.90/person/query";
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("faceId", faceid);
+        FormBody formBody = builder.build();
+
+        Request request = new Request.Builder().url(netUrl).post(formBody).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String body = response.body().string();
+                Gson gson = new Gson();
+                final HXFaceBean bean = gson.fromJson(body, HXFaceBean.class);
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, bean.data.username, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                String debug = "";
+            }
+        });
+    }
+
+    public static Bitmap base64ToBitmap(String base64Data) {
+        try {
+//            if (base64Data.startsWith("data:image/jpg;base64,") == false) {
+//                base64Data = "data:image/jpg;base64,"+base64Data;
+//            }
+//            base64Data = base64Data.substring(4);
+            byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            return bitmap;
+        } catch (Exception ex) {
+            String error = ex.getMessage();
+            ex.printStackTrace();
+            return null;
         }
     }
 }
