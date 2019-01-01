@@ -1,5 +1,6 @@
 package com.pa.door.facetv;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -33,11 +34,7 @@ import com.pa.door.facetv.bean.AccessRecordBp;
 import com.pa.door.facetv.bean.HXFaceBean;
 import com.pa.door.facetv.util.IPUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,13 +49,9 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int POPUP_DELAY = 10000;
+    private static final int POPUP_DELAY = 3000;
     @BindView(R.id.flcontainer)
     FrameLayout flcontainer;
-//    @BindView(R.id.ivFace)
-//    CircleImageView ivFace;
-//    @BindView(R.id.rlroot)
-//    RelativeLayout rlroot;
 
     PopupWindow window = null;
     @BindView(R.id.root)
@@ -74,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnregister;
 
     String host = "";
-    @BindView(R.id.ivtest)
-    ImageView ivtest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,12 +136,22 @@ public class MainActivity extends AppCompatActivity {
 //        }).start();
     }
 
-    private void show() {
+    Bitmap mBitmap;
+
+    private void show(String name) {
 
         View view = this.getLayoutInflater().inflate(R.layout.recognize, null, false);
-        flcontainer.removeAllViews();
+        TextView tvname = view.findViewById(R.id.tvname);
+        tvname.setText(name);
+
+        ImageView face = view.findViewById(R.id.ivFace);
+        face.setImageBitmap(mBitmap);
+        face.invalidate();
+
+//        flcontainer.removeAllViews();
         flcontainer.addView(view);
         flcontainer.setVisibility(View.VISIBLE);
+//
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -198,7 +199,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        host = IPUtil.getIP(this);
+        //host = IPUtil.getIP(this);
+        host = IPUtil.getWifiIP(this);
+        String ip = "";
         Toast.makeText(this, host, Toast.LENGTH_SHORT).show();
 
         AsyncHttpServer server = new AsyncHttpServer();
@@ -220,20 +223,20 @@ public class MainActivity extends AppCompatActivity {
                     Multimap multimap = formBody.get();
 
                     String postdata = multimap.getString("accessRecord");
+                    System.out.println(postdata);
                     final AccessRecordBp face = gson.fromJson(postdata, AccessRecordBp.class);
-                    if (face != null) {
 
+                    if (face != null) {
                         String faceid = face.faceId;
                         queryface(faceid);
-//                        MainActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Bitmap bitmap = base64ToBitmap(face.image);
-//                                imageView2.setImageBitmap(bitmap);
-//                                imageView2.invalidate();
-//                                bitmap = null;
-//                            }
-//                        });
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBitmap = base64ToBitmap(face.image);
+//                                ivtest.setImageBitmap(mBitmap);
+//                                ivtest.invalidate();
+                            }
+                        });
                     }
                 }
             }
@@ -243,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
 
         String netUrl = "http://192.168.0.90/linmu/server/url";
         String url = "http://" + host + ":5000/api/postface";
-
+        Toast.makeText(this, url, Toast.LENGTH_LONG).show();
         OkHttpClient client = new OkHttpClient();
 
         FormBody.Builder builder = new FormBody.Builder();
@@ -254,16 +257,22 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
+                final String msg = e.getMessage();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
                 final String body = response.body().string();
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         Toast.makeText(MainActivity.this, body, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -271,43 +280,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        read();
+//        read();
     }
 
-    private void read() {
-
+    public Bitmap base64ToBitmap(String base64Data) {
         try {
-            InputStream inputStream = getAssets().open("pic.txt");
-            String base64 = getString(inputStream);
-            inputStream.close();
-
-            Bitmap bitmap = base64ToBitmap(base64);
-            ivtest.setImageBitmap(bitmap);
-            ivtest.invalidate();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static String getString(InputStream inputStream) {
-        InputStreamReader inputStreamReader = null;
-        try {
-            inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
-        }
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        StringBuffer sb = new StringBuffer("");
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
+            int pos = base64Data.indexOf(",");
+            if (pos > -1) {
+                base64Data = base64Data.substring(pos + 1);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            base64Data = base64Data.replaceAll(" ", "+");//.replaceAll("\r|\n", "")
+            byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            return bitmap;
+        } catch (Exception ex) {
+            String error = ex.getMessage();
+            ex.printStackTrace();
+            return null;
         }
-        return sb.toString();
     }
 
     void queryface(String faceid) {
@@ -338,27 +328,22 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this, bean.data.username, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, bean.data.username, Toast.LENGTH_SHORT).show();
+                        if (bean.result == 1) {
+                            show(bean.data.username);
+                        } else {
+                            show("查找失败");
+                        }
                     }
                 });
-                String debug = "";
             }
         });
     }
 
-    public static Bitmap base64ToBitmap(String base64Data) {
-        try {
-            int pos = base64Data.indexOf(",");
-            if (pos > -1) {
-                base64Data = base64Data.substring(pos + 1);
-            }
-            byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            return bitmap;
-        } catch (Exception ex) {
-            String error = ex.getMessage();
-            ex.printStackTrace();
-            return null;
-        }
+    @OnClick(R.id.button)
+    public void onViewClicked() {
+
+        Intent intent =new Intent(MainActivity.this, Main2Activity.class);
+        startActivity(intent);
     }
 }

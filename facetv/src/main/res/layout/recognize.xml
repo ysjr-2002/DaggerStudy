@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
+        android:id="@+id/flcontainer"
         android:layout_width="339dp"
         android:background="@drawable/tv_refresh"
         android:layout_centerInParent="true"
@@ -13,6 +14,13 @@
             android:layout_gravity="center"
             android:layout_height="270dp"
             android:src="@drawable/son" />
-    </FrameLayout>a
+    </FrameLayout>
+
+    <TextView
+        android:layout_below="@+id/flcontainer"
+        android:id="@+id/tvname"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
 </RelativeLayout>

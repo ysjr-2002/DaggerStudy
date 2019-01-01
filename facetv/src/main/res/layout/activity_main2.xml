@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="600dp"
+    android:background="@color/white"
+    >
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="65dp"-->
+        <!--android:paddingLeft="@dimen/acitvity_margin"-->
+        <!--android:paddingRight="@dimen/acitvity_margin">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:gravity="center"-->
+            <!--android:text="公司位置:"-->
+            <!--android:textColor="@color/grey"-->
+            <!--android:textSize="@dimen/size_text_medium" />-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/et_address"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginLeft="2dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:hint="请输入公司位置"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="@dimen/size_text_small" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_location"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="5dp"-->
+            <!--android:text="重新定位"-->
+            <!--android:textColor="@color/blue"-->
+            <!--android:textSize="@dimen/size_text_medium" />-->
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="65dp"-->
+        <!--android:paddingLeft="@dimen/acitvity_margin"-->
+        <!--android:paddingRight="@dimen/acitvity_margin">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:gravity="center"-->
+            <!--android:text="设置管理员:"-->
+            <!--android:textColor="@color/grey"-->
+            <!--android:textSize="@dimen/size_text_medium" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:gravity="center"-->
+             <!--/>-->
+    <!--</RelativeLayout>-->
+</RelativeLayout>

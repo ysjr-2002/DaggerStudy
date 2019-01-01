@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="acitvity_margin">10</dimen>
+    <dimen name="size_text_medium">20sp</dimen>
+    <dimen name="size_text_small">20sp</dimen>
+</resources>
