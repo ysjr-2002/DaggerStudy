@@ -189,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btnsetting:
                 Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+                Intent intent =new Intent(MainActivity.this,SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnregister:
                 Toast.makeText(this, "register", Toast.LENGTH_SHORT).show();
@@ -345,5 +347,16 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent =new Intent(MainActivity.this, Main2Activity.class);
         startActivity(intent);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

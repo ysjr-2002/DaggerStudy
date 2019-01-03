@@ -43,6 +43,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:textColor="#ffffff"
             android:background="@drawable/tv_button"
             android:text="系统设置" />
 
