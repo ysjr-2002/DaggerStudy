@@ -54,12 +54,12 @@ public class CameraManager  {
     private CameraTextureView.CameraPreviewListener mCameraPreviewListener = new CameraTextureView.CameraPreviewListener() {
         @Override
         public void onStartPreview() {
-//            mSurfaceTexture = mCameraTextureView.getSurfaceTexture();
-//            try {
-//                camera.setPreviewTexture(mSurfaceTexture);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            mSurfaceTexture = mCameraTextureView.getSurfaceTexture();
+            try {
+                camera.setPreviewTexture(mSurfaceTexture);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     };
 
