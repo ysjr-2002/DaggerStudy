@@ -59,6 +59,8 @@ public class YuvUtils {
             Log.d("ysj", "格式错误");
             e.printStackTrace();
         }
+        finally {
+        }
         return content;
     }
 }

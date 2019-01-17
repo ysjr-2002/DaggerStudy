@@ -1,6 +1,7 @@
 package com.visitor.obria.yourapplication.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.visitor.obria.yourapplication.R;
 import com.visitor.obria.yourapplication.camera.CameraManager;
@@ -24,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class QRRecognizeActivity extends AppCompatActivity {
+
+    //http://repo1.maven.org/maven2/com/google/zxing/core/
 
     @BindView(R.id.ct_preview)
     CameraTextureView ctPreview;
@@ -44,6 +48,13 @@ public class QRRecognizeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrrecognize);
         ButterKnife.bind(this);
+
+
+//        BitmapDrawable bd = (BitmapDrawable) this.getResources().getDrawable(R.mipmap.abc);
+//        Bitmap bitmap = bd.getBitmap();
+//        String content = YuvUtils.recognzieQR(bitmap);
+//        Toast.makeText(this, content, Toast.LENGTH_SHORT).show();
+
         initCamera();
 
         initLayoutAnimation();
