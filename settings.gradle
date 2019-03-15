@@ -1,1 +1,1 @@
-include ':app', ':MyUsbSerial', ':facetv'
+include ':app', ':MyUsbSerial', ':facetv', ':studygo'
