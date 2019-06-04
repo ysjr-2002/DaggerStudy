@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/facetv" />
             <option value="$PROJECT_DIR$/studygo" />
+            <option value="$PROJECT_DIR$/webservicestudy" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
