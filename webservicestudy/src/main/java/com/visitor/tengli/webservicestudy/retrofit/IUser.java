@@ -1,5 +1,7 @@
 package com.visitor.tengli.webservicestudy.retrofit;
 
+import com.google.gson.JsonObject;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -11,5 +13,8 @@ import retrofit2.http.Query;
  */
 public interface IUser {
     @GET("test/")
-    Call<UserResponse> test(@Query("userid") int id, @Query("name") String name);
+    Call<UserResponse> queryByparam(@Query("userid") int id, @Query("name") String name);
+
+    @GET("test/{id}")
+    Call<JsonObject> queryBypath(@Path("id")int id);
 }

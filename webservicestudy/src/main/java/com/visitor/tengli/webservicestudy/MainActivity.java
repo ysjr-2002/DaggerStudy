@@ -9,6 +9,7 @@ import android.util.Xml;
 import android.view.TextureView;
 
 import com.visitor.tengli.webservicestudy.retrofit.RetrofitUserHelper;
+import com.visitor.tengli.webservicestudy.retrofitweather.RetrofitWeatherHelper;
 
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -61,9 +62,16 @@ public class MainActivity extends AppCompatActivity {
         //httpPostCheckIn();
         //new Study().postData();
 
-        RetrofitUserHelper helper = new RetrofitUserHelper();
+//        RetrofitUserHelper helper = new RetrofitUserHelper();
+//        helper.build();
+//        helper.getUserByPath();
+//        helper.getUser();
+
+//        new Config().read();
+
+        RetrofitWeatherHelper helper = new RetrofitWeatherHelper();
         helper.build();
-        helper.getUser();
+        helper.getWeather();
     }
 
     private void httpPostCheckIn() {

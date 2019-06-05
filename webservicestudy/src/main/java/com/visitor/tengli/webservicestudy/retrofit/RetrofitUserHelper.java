@@ -1,5 +1,7 @@
 package com.visitor.tengli.webservicestudy.retrofit;
 
+import com.google.gson.JsonObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +27,7 @@ public class RetrofitUserHelper {
 
     public void getUser() {
 
-        Call<UserResponse> call = user.test(20, "ysj");
+        Call<UserResponse> call = user.queryByparam(20, "ysj");
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -39,6 +41,27 @@ public class RetrofitUserHelper {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getUserByPath() {
+        Call<JsonObject> call = user.queryBypath(99999);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+
+                if (response.isSuccessful()) {
+                    String shit = "";
+                }
+                String content = response.body().toString().trim();
+                //UserResponse data = response.body();
+                String debug = "";
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
 
             }
         });
