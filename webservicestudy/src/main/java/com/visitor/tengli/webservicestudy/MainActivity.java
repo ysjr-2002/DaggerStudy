@@ -3,13 +3,12 @@ package com.visitor.tengli.webservicestudy;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Xml;
-import android.view.TextureView;
 
-import com.visitor.tengli.webservicestudy.retrofit.RetrofitUserHelper;
-import com.visitor.tengli.webservicestudy.retrofitweather.RetrofitWeatherHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.visitor.tengli.webservicestudy.retrofitsport.RetrofitSportHelper;
+import com.visitor.tengli.webservicestudy.retrofitsport.RetrofitSportXmlHelper;
 
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -18,11 +17,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +35,6 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,9 +65,17 @@ public class MainActivity extends AppCompatActivity {
 
 //        new Config().read();
 
-        RetrofitWeatherHelper helper = new RetrofitWeatherHelper();
+//        RetrofitWeatherHelper helper = new RetrofitWeatherHelper();
+//        helper.build();
+//        helper.getContract();
+
+//        RetrofitSportHelper helper = new RetrofitSportHelper();
+//        helper.build();
+//        helper.getContract();
+
+        RetrofitSportXmlHelper helper = new RetrofitSportXmlHelper();
         helper.build();
-        helper.getWeather();
+        helper.getContract();
     }
 
     private void httpPostCheckIn() {
