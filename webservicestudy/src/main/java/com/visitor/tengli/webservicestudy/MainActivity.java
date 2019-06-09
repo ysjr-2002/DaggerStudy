@@ -1,13 +1,13 @@
 package com.visitor.tengli.webservicestudy;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.visitor.tengli.webservicestudy.retrofitsport.RetrofitSportHelper;
 import com.visitor.tengli.webservicestudy.retrofitsport.RetrofitSportXmlHelper;
 
 import org.ksoap2.serialization.SoapObject;
@@ -37,13 +37,54 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Runnable {
+
+    @butterknife.BindView(R.id.textView1)
+    TextView textView1;
+    @butterknife.BindView(R.id.textView2)
+    TextView textView2;
+    @butterknife.BindView(R.id.textView3)
+    TextView textView3;
+    @butterknife.BindView(R.id.textView4)
+    TextView textView4;
+    @butterknife.BindView(R.id.textView5)
+    TextView textView5;
+    private int[] colors = new int[]{0xffff0000, 0xff00ff00, 0xff0000ff, 0xffff00ff, 0xff00ffff};
+    private int[] nextColorPointers = new int[]{1, 2, 3, 4, 0};
+    private View[] views;
+    private int currentColorPointer = 0;
+    private Handler mHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        butterknife.ButterKnife.bind(this);
+        views = new View[]{textView1, textView2, textView3, textView4, textView5};
+        currentColorPointer = 4;
+        mHandler = new Handler();
+        mHandler.postDelayed(this, 300);
     }
+
+    @Override
+    public void run() {
+
+
+        int nextColorPointer = currentColorPointer;
+        for (int i = views.length - 1; i >= 0; i--) {
+
+            views[i].setBackgroundColor(colors[nextColorPointers[nextColorPointer]]);
+            nextColorPointer = nextColorPointers[nextColorPointer];
+        }
+
+        currentColorPointer++;
+        if (currentColorPointer == 5) {
+            currentColorPointer = 0;
+        }
+        mHandler.postDelayed(this, 300);
+    }
+
 
     @Override
     protected void onStart() {
