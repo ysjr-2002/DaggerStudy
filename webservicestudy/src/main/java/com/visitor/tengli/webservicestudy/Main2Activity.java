@@ -29,12 +29,13 @@ public class Main2Activity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        new Config().read();
+//        new Config().read();
+        new ThreadStudy().test();
+        new ThreadStudy().list();
     }
 
     BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
     SortedSet<Integer> list = new TreeSet<>();
-
 
 
     @OnClick(R.id.button)
