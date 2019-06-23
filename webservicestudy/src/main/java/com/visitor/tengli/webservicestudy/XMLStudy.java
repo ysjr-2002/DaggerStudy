@@ -20,7 +20,7 @@ import okhttp3.RequestBody;
  * created by yangshaojie  on 2019/6/4
  * email: ysjr-2002@163.com
  */
-public class Study {
+public class XMLStudy {
 
     public void postForm() {
 
