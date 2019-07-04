@@ -1,10 +1,15 @@
 package com.visitor.tengli.webservicestudy;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * created by yangshaojie  on 2019/6/14
@@ -51,19 +56,15 @@ public class ThreadStudy {
         }
     }
 
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+        }
+    };
+
     public void list() {
 
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        if (list.isEmpty()) {
-
-        }
-
-        Iterator<Integer> test = list.iterator();
-        while (test.hasNext()) {
-            int val = test.next();
-        }
     }
 }

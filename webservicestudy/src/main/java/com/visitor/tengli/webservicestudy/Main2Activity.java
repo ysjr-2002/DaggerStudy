@@ -1,20 +1,20 @@
 package com.visitor.tengli.webservicestudy;
 
 import android.os.Bundle;
-import android.os.Looper;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.ImageView;
 
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Main2Activity extends AppCompatActivity {
+import com.visitor.tengli.webservicestudy.R;
+
+public class Main2Activity extends AppCompatActivity implements Runnable {
+
+    @BindView(R.id.imageView)
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +28,29 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-//        new Config().read();
-        new ThreadStudy().test();
-        new ThreadStudy().list();
+        mHandler.postDelayed(this, 1000);
     }
 
-    BlockingQueue<String> queue = new ArrayBlockingQueue<>(1);
-    SortedSet<Integer> list = new TreeSet<>();
 
+    private int index = 0;
+    private int images[] = {R.mipmap.t1, R.mipmap.t2, R.mipmap.t3};
+    private Handler mHandler = new Handler();
 
     @OnClick(R.id.button)
     public void onViewClicked() {
         //this.finish();
-        mThread.interrupt();
+        mHandler.removeCallbacks(this);
+    }
+
+    @Override
+    public void run() {
+
+        if (index == 3) {
+            index = 0;
+        }
+
+        imageView.setBackgroundResource(images[index]);
+        index++;
+        mHandler.postDelayed(this, 1000);
     }
 }
